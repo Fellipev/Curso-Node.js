@@ -26,7 +26,11 @@ app.get('/cad', (req, res) =>{
 })
 
 app.post('/addPostagem', (req, res) => {
-    res.send("Form recebido!")
+    //como pegar os campos enviados pelo form
+    let titulo = req.body.titulo
+    let conteudo = req.body.conteudo
+    
+    res.send(`Titulo: ${titulo}<br>Conteudo: ${conteudo}`)
 })
 
 app.listen(8081, () => {
