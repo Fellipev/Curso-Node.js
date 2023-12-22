@@ -17,8 +17,8 @@ const sequelize = new Sequelize('teste', 'root', 'Admin', {
 //     console.log("Erro: " + erro);
 // })
 
-app.get('/cad/:nome', (req, res) =>{
-    res.send(`Bem vindo ${req.params.nome}, a tela de cadastro`);
+app.get('/cad', (req, res) =>{
+    res.render('formulario')
 })
 
 app.listen(8081, () => {
