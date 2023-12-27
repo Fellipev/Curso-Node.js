@@ -5,7 +5,13 @@ const bodyParser = require('body-parser');
 const Post = require('./models/Post')
 const User = require('./models/user')
 
-app.engine('handlebars', handlebars.engine({defaultLayout: 'main'}))
+app.engine('handlebars', handlebars.engine({defaultLayout: 'main',
+runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true
+}
+
+}))
 app.set('view engine', 'handlebars')
 
 app.use(bodyParser.urlencoded({extended: false}))
@@ -20,7 +26,10 @@ app.get('/cadUser', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    res.render('home')
+    //Select *
+    Post.findAll({order: [['id', 'DESC']]}).then((posts) => {
+        res.render('home', {posts: posts})
+    })
 })
 
 app.post('/addPostagem', (req, res) => {
