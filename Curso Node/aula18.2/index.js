@@ -3,6 +3,7 @@ const app = express();
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
 const Post = require('./models/Post')
+const User = require('./models/user')
 
 app.engine('handlebars', handlebars.engine({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
@@ -12,6 +13,10 @@ app.use(bodyParser.json())
 
 app.get('/cad', (req, res) =>{
     res.render('formulario')
+})
+
+app.get('/cadUser', (req, res) => {
+    res.render('formUser')
 })
 
 app.get('/', (req, res) => {
@@ -30,6 +35,25 @@ app.post('/addPostagem', (req, res) => {
         conteudo: conteudo
     }).then(() => {
         res.redirect('/')
+    }).catch((error) => {
+        res.send("Houve um erro: " + error)
+    })
+})
+
+app.post('/addUser', (req, res) => {
+    let nome = req.body.nome
+    let email = req.body.email
+    let senha = req.body.senha
+    let dataNascimento = req.body.dataNascimento
+
+    // res.send(`Conteudo recebido<br>${nome}<br>${email}<br>${senha}<br>${dataNascimento}`)
+    User.create({
+        nome : nome,
+        email : email,
+        senha : senha,
+        DataNascimento : dataNascimento
+    }).then(() => {
+        res.send("Usuario criado com sucesso!")
     }).catch((error) => {
         res.send("Houve um erro: " + error)
     })
