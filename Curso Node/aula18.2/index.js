@@ -32,6 +32,13 @@ app.get('/', (req, res) => {
     })
 })
 
+app.get('/users', (req, res) => {
+
+    User.findAll({order : [['id', 'ASC']]}).then((users) => {
+        res.render('users', {users : users})
+    })
+})
+
 app.post('/addPostagem', (req, res) => {
     //como pegar os campos enviados pelo form
         let titulo = req.body.titulo
@@ -62,7 +69,7 @@ app.post('/addUser', (req, res) => {
         senha : senha,
         DataNascimento : dataNascimento
     }).then(() => {
-        res.send("Usuario criado com sucesso!")
+        res.redirect('/users')
     }).catch((error) => {
         res.send("Houve um erro: " + error)
     })
